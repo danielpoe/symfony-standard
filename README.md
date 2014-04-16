@@ -20,17 +20,17 @@ In details this fork adds the following features:
 A deployment pipeline makes sure, that your latest changes can be tested and deployed in an automated and reproduceable way.
 Our symfony deployment-pipeline works like this:
 
-	1 BUILD:	A "commit" or "build" job makes sure, that the latest codebase (and everything else required for installing your application) is packaged in a .tar.gz file.
-	  This is called "build-artifact".
+1. BUILD:	A "commit" or "build" job makes sure, that the latest codebase (and everything else required for installing your application) is packaged in a .tar.gz file.
+  This is called "build-artifact".
 
-	2 DEPLOY ON LATEST: Next you need to deploy the created package to a real system.
-		Because you want to know if the package can be installed of course. See below to read more details about the Deployment automation.
+2. DEPLOY ON LATEST: Next you need to deploy the created package to a real system.
+	Because you want to know if the package can be installed of course. See below to read more details about the Deployment automation.
 
-	3 Acceptance Tests: Once the package is installed, you want to call an URL and see if your application still works like it should.
-		Use something like cucumber or selenium for this..
+3. Acceptance Tests: Once the package is installed, you want to call an URL and see if your application still works like it should.
+	Use something like cucumber or selenium for this..
 
-	4 DEPLOY ON STAGING / PRODUCTION: At the end you want to install the application on staging and later on production.
-		You are doing it the same way like you did it for "DEPLOY ON LATEST". The only difference might be that you now deploy to a cluster instead of a single node.
+4. DEPLOY ON STAGING / PRODUCTION: At the end you want to install the application on staging and later on production.
+	You are doing it the same way like you did it for "DEPLOY ON LATEST". The only difference might be that you now deploy to a cluster instead of a single node.
 
 
 2) The Build Step
@@ -40,12 +40,12 @@ Our symfony deployment-pipeline works like this:
 
 The build is responsible for:
 
-	*	getting latest code
-	*	do composer install (based on the composer.lock)
-	*	Optional: Run Unit Tests
-	*	Optional: Compress CSS and JS for your application
-	*	Creating a version file (that identifies the version of your packaged application)
-	*	Creating the tar.gz file - ready to be downloaded by your deployment Script
+ *	getting latest code
+ *	do composer install (based on the composer.lock)
+ *	Optional: Run Unit Tests
+ *	Optional: Compress CSS and JS for your application
+ *	Creating a version file (that identifies the version of your packaged application)
+ *	Creating the tar.gz file - ready to be downloaded by your deployment Script
 
 The created package can now be downloaded and installed to any environment. Of course your application needs informations from the
 infrastructure: Like database, folder locations, context etc...  The simple idea is, that the installation process will ask the environment for that informations.
@@ -53,18 +53,21 @@ We are using environment variables for this.
 
 To build a package just checkout the code and call the included ant file:
 ::
+
 	cd build
 	ant -Dversion=1
 
 This will then download composer and build a package.
-If you want to use your global composer installation:
+If you want to use your global composer installation instead of downloading composer you can specify the path:
 ::
+
 	ant -Dversion=1 -Dcomposerpath=/path/to/composer.phar buildpackage
 
 
 The package will be automatically stored in ../artifacts/symfony2app.tar.gz
 You can override this with the following properties:
 ::
+
 	artifactdir
 	projectname
 
@@ -77,7 +80,7 @@ Simple set this suggested properties:
 	version = ${BUILD_NUMBER}
 	projectname = experiencemanager
 
-### Update target
+### "composer update" target
 
 You can also run the included "updateComposerLock" target to update your composer.lock file - including commit to your repository.
 
@@ -93,19 +96,27 @@ This kind of dependency should be "injected" to the deployment process: You can 
 
 ### General Termdefinition and Thoughts
 
-environment: definition of the infrastructure that is involved in the deployment.
+---------------------------------------
+
+_environment:_ definition of the infrastructure that is involved in the deployment.
 			For example there might be an environment "dev-local" that defines that only the localhost is used in the deployment.
 			Or there might be an environment "production-cluster" that defines that we have 4 servers where the application should be deployed.
 
-application-context: Symfony also uses the term "environment" to be able to run the application in different contexts (with different cache and other configurations).
+---------------------------------------
+
+_application-context:_ Symfony also uses the term "environment" to be able to run the application in different contexts (with different cache and other configurations).
 			There should be a limited amount of contexts - in most cases "dev", "test", and "production" should be sufficent.
 			An application can run in "test" context on the "production-cluster" environment.
 
-setup:	The steps required to install a specific version of your application. The setup steps are highly coupled to the packaged application and not to the infrastructure.
+---------------------------------------
+
+_setup:_	The steps required to install a specific version of your application. The setup steps are highly coupled to the packaged application and not to the infrastructure.
  		Typically for a symfony application this includes steps for adjusting the configuration to use the correct database, run the database migration (migrate up), install assets, clean caches etc..
  		The setup needs to know the "application-context" and it should ask the infrastructure for the required resources (like database)
 
-deployment: The process of bringing a new version of an application on a new or existing infrastructure. It may involves provisioning and preparing steps on the infrastructure, creating backups, show intermediate maintenance pages, downloading the desired version of the application,
+---------------------------------------
+
+_deployment:_ The process of bringing a new version of an application on a new or existing infrastructure. It may involves provisioning and preparing steps on the infrastructure, creating backups, show intermediate maintenance pages, downloading the desired version of the application,
 			updating loadbalancers, warming up caches etc...
 
 			The deployment follows a certain workflow, that orchestrates the steps required for having the application running on the target environment.
@@ -116,6 +127,7 @@ deployment: The process of bringing a new version of an application on a new or 
 Ok lets say you have your package "symfony2app.tar.gz" build as the result of the build step above.
 Now you can install it in a directory of your choice:
 ::
+
 	wget <your artifact location>/symfony2app.tar.gz
 	tar -xzf symfony2app.tar.gz
 	./symfony2app/setup.sh
@@ -141,18 +153,18 @@ You can find the deployment script here: https://github.com/danielpoe/symfony-ea
 
 Mainly the tasks of that deployment is:
 
-	* Download the correct package that should be installed from a source. (E.g. your Jenkins artifacts) The download is stored in an intermediate "deliveryfolder"
-	* Extract the folder to the release folder - in a subdirectory with the correct versionnumber
-	* Update the "next" Symlink to point to the new release
-	* Run the Setup of the application
-	* Run Smoke Test
-	* Switch: Update "current" and "previous" symlinks
-	* Cleanup old releases
+ * Download the correct package that should be installed from a source. (E.g. your Jenkins artifacts) The download is stored in an intermediate "deliveryfolder"
+ * Extract the folder to the release folder - in a subdirectory with the correct versionnumber
+ * Update the "next" Symlink to point to the new release
+ * Run the Setup of the application
+ * Run Smoke Test
+ * Switch: Update "current" and "previous" symlinks
+ * Cleanup old releases
 
 
 4) Next Steps
 ----------------------------
 
-	* After you have cloned this repository you can add your symfony application like described in the original README: https://github.com/symfony/symfony-standard
+ * After you have cloned this repository you can add your symfony application like described in the original README: https://github.com/symfony/symfony-standard
 
-	* Uncomment the "migrate up" call in setup.sh as soon as you have your first database migration file in the package
+ * Uncomment the "migrate up" call in setup.sh as soon as you have your first database migration file in the package
