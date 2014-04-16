@@ -198,14 +198,15 @@ Then you have a new symfony project repository kickstarted, and you can setup th
 
  * Create a build job like explained above
  * Prepare the system (vHost, Database etc) and create a install job like explained above:
+
+
 ::
 
   git clone https://github.com/danielpoe/symfony-easydeployworkflow
   # do your adjustments on the deployment script (artifact location etc...)
   # check in everything to a new deployment repository
   # use this deployment script to deploy to your environment
-
-...
+	...
 
 ### Other hints:
 
