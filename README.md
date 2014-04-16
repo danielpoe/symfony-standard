@@ -119,10 +119,12 @@ _setup:_	The steps required to install a specific version of your application. T
 _deployment:_ The process of bringing a new version of an application on a new or existing infrastructure. It may involves provisioning and preparing steps on the infrastructure, creating backups, show intermediate maintenance pages, downloading the desired version of the application,
 			updating loadbalancers, warming up caches etc...
 
-			The deployment follows a certain workflow, that orchestrates the steps required for having the application running on the target environment.
-			The workflow may depend on the environment.
+The deployment follows a certain workflow, that orchestrates the steps required for having the application running on the target environment.
+The workflow may depend on the environment.
 
-### Manual Setup
+---------------------------------------
+
+### Manual Installation and Setup
 
 Ok lets say you have your package "symfony2app.tar.gz" build as the result of the build step above.
 Now you can install it in a directory of your choice:
@@ -165,6 +167,46 @@ Mainly the tasks of that deployment is:
 4) Next Steps
 ----------------------------
 
- * After you have cloned this repository you can add your symfony application like described in the original README: https://github.com/symfony/symfony-standard
+After you have cloned this repository you can add your symfony application like described in the original README: https://github.com/symfony/symfony-standard
+
+Basically for a project kickstart this should be the steps:
+
+::
+
+ # Clone this kickstart repository somewhere on your development server
+ git clone https://github.com/danielpoe/symfony-standard.git myproject-kickstart
+
+ # Do first local build
+ cd myproject-kickstart/build
+ ant -Dversion=1
+
+ # smoketest
+ cd ..
+ php app/check.php
+
+ # Kickstart your project Bundle
+ php app/console generate:bundle
+
+ # check in everything to a new repository
+ git remote add myname yourrepositoryurl
+ gut pull
+ git add src/yourvendorname
+ git push myname master
+
+
+Then you have a new symfony project repository kickstarted, and you can setup the deployment pipeline for this:
+
+ * Create a build job like explained above
+ * Prepare the system (vHost, Database etc) and create a install job like explained above:
+ ::
+
+  git clone https://github.com/danielpoe/symfony-easydeployworkflow
+  # do your adjustments on the deployment script (artifact location etc...)
+  # check in everything to a new deployment repository
+  # use this deployment script to deploy to your environment
+
+...
+
+### Other hints:
 
  * Uncomment the "migrate up" call in setup.sh as soon as you have your first database migration file in the package
