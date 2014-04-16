@@ -197,15 +197,13 @@ Basically for a project kickstart this should be the steps:
 Then you have a new symfony project repository kickstarted, and you can setup the deployment pipeline for this:
 
  * Create a build job like explained above
- * Prepare the system (vHost, Database etc) and create a install job like explained above:
 
+Then prepare the system (vHost, Database etc) and create a install job like explained above:
 
-::
-
-  git clone https://github.com/danielpoe/symfony-easydeployworkflow
-  # do your adjustments on the deployment script (artifact location etc...)
-  # check in everything to a new deployment repository
-  # use this deployment script to deploy to your environment
+	git clone https://github.com/danielpoe/symfony-easydeployworkflow
+	# do your adjustments on the deployment script (artifact location etc...)
+	# check in everything to a new deployment repository
+	# use this deployment script to deploy to your environment
 	...
 
 ### Other hints:
