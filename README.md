@@ -169,6 +169,8 @@ Mainly the tasks of that deployment is:
 
 After you have cloned this repository you can add your symfony application like described in the original README: https://github.com/symfony/symfony-standard
 
+_Project Kickstart:_
+
 Basically for a project kickstart this should be the steps:
 
 ::
@@ -194,11 +196,13 @@ Basically for a project kickstart this should be the steps:
  git push myname master
 
 
+_Deployment Pipeline Kickstart:_
+
 Then you have a new symfony project repository kickstarted, and you can setup the deployment pipeline for this:
 
- * Create a build job like explained above
+1 Create a build job like explained above
 
-Then prepare the system (vHost, Database etc) and create a install job like explained above:
+2 Then prepare the system (vHost, Database etc) and create a install job like explained above:
 
 	git clone https://github.com/danielpoe/symfony-easydeployworkflow
 	# do your adjustments on the deployment script (artifact location etc...)
