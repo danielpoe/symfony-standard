@@ -125,6 +125,7 @@ So we pass this infrastructure dependencies via environment variables:
 
 	export ENVIRONMENT="local" && export CONTEXT="dev" &&   export WEBGROUP="www-data" && export WEBUSER="www-data" && export DBHOST="localhost" && export DBNAME="spm_qvc" && export DBUSER="root" && export DBPASSWORD="root" && export SECRET="lkajsdlaksdj"  ./symfony2app/setup.sh
 
+
 ### Details about the configuration adjustment
 
 The setup script is able to adjust any configuration in any file or database table. This is done with the "EnvSettingsTool": https://github.com/AOEpeople/EnvSettingsTool

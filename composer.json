@@ -4,7 +4,7 @@
     "type": "project",
     "description": "The \"Symfony Standard Edition\" distribution",
     "autoload": {
-        "psr-0": { "": "src/" }
+        "psr-0": { "": "src/", "SymfonyStandard": "app/" }
     },
 	"repositories": [
 		{
@@ -14,7 +14,7 @@
 	],
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "~2.4",
+        "symfony/symfony": "2.5.x-dev",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
 		"doctrine/migrations": "dev-master",
@@ -23,25 +23,29 @@
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~2.3",
+		"sensio/distribution-bundle": "3.0.*@dev",
 		"aoepeople/envsettingstool": "~1.0",
-        "sensio/framework-extra-bundle": "~2.3",
+        "sensio/framework-extra-bundle": "~3.0",
+        "sensio/generator-bundle": "~2.3"
+    },
+    "require-dev": {
         "sensio/generator-bundle": "~2.3"
     },
     "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookInstallAcmeDemoBundle"
+        ],
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ],
         "post-update-cmd": [
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap"
         ]
     },
     "config": {
         "bin-dir": "bin"
     },
-    "minimum-stability": "beta",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
