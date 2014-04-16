@@ -173,27 +173,26 @@ _Project Kickstart:_
 
 Basically for a project kickstart this should be the steps:
 
-::
 
- # Clone this kickstart repository somewhere on your development server
- git clone https://github.com/danielpoe/symfony-standard.git myproject-kickstart
+	# Clone this kickstart repository somewhere on your development server
+	git clone https://github.com/danielpoe/symfony-standard.git myproject-kickstart
 
- # Do first local build
- cd myproject-kickstart/build
- ant -Dversion=1
+	# Do first local build
+	cd myproject-kickstart/build
+	ant -Dversion=1
 
- # smoketest
- cd ..
- php app/check.php
+	# smoketest
+	cd ..
+	php app/check.php
 
- # Kickstart your project Bundle
- php app/console generate:bundle
+	# Kickstart your project Bundle
+	php app/console generate:bundle
 
- # check in everything to a new repository
- git remote add myname yourrepositoryurl
- gut pull
- git add src/yourvendorname
- git push myname master
+	# check in everything to a new repository
+	git remote add myname yourrepositoryurl
+	gut pull
+	git add src/yourvendorname
+	git push myname master
 
 
 _Deployment Pipeline Kickstart:_
