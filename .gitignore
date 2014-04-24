@@ -10,3 +10,4 @@ version.txt
 /vendor/
 /bin/
 /composer.phar
+.idea

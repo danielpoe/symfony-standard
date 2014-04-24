@@ -29,7 +29,12 @@
         "sensio/generator-bundle": "~2.3"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+		"sensio/generator-bundle": "~2.3",
+		"phpmd/phpmd": "*",
+		"sebastian/phpcpd": "*",
+		"phploc/phploc": "*",
+		"squizlabs/php_codesniffer": "1.*",
+		"phpunit/phpunit": "3.7.*"
     },
     "scripts": {
         "post-root-package-install": [
