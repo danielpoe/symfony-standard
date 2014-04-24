@@ -42,7 +42,12 @@ The build is responsible for:
 
  *	getting latest code
  *	do composer install (based on the composer.lock)
- *	Optional: Run Unit Tests
+ *	QA (ant qa)
+    * PHPUnit: (ant qaTestUnit)
+    * Copy and Paste detection (ant qaCopyPasteDetection)
+    * PHPMess detection (an qaMessDetection)
+    * CodeComplexity (an qaCodeComplexity)
+    * PHPLint (ant qaPhpLint)
  *	Optional: Compress CSS and JS for your application
  *	Creating a version file (that identifies the version of your packaged application)
  *	Creating the tar.gz file - ready to be downloaded by your deployment Script
